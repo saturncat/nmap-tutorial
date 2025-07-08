@@ -1,0 +1,167 @@
+<p><strong>Nmap Beginner Tutorial</strong></p>
+
+<hr />
+
+<h3>Introduction: Passive vs Active Scanning</h3>
+
+<p>Network scanning is a fundamental skill in cybersecurity, allowing professionals to understand which systems are active, what services they run, and where vulnerabilities may lie. Scanning can be either <em>passive</em> (observing traffic without interaction) or <em>active</em> (sending probes to systems). While passive scanning is stealthier, active scanning is more thorough and accurate for discovery. Nmap is an active scanner that helps map networks for IT operations and penetration testing.</p>
+
+<h3>A Short History of Nmap</h3>
+
+<p>Nmap (Network Mapper) was first released by Gordon Lyon (Fyodor) in 1997 as a tool for network exploration and security auditing. Since then, it has grown into one of the most widely used open-source tools in cybersecurity. It supports dozens of scanning techniques and scripting capabilities. Nmap remains actively developed and is an essential utility in every pentester's toolkit.</p>
+
+<h3>Installation (Linux &amp; Windows 11)</h3>
+
+<p>On <strong>Kali Linux</strong>, Nmap is pre-installed. To check, run:
+<code>bash
+$ nmap -v
+</code>
+If not installed, use:
+<code>bash
+$ sudo apt update &amp;&amp; sudo apt install nmap
+</code></p>
+
+<p>On <strong>Windows 11</strong>, download the installer from <a href="https://nmap.org/download.html">nmap.org/download.html</a>. Run the installer and optionally include Zenmap (GUI version). After installation, open PowerShell and type <code>nmap</code> to verify.</p>
+
+<h3>Syntax and Basic Options</h3>
+
+<p>The basic syntax of an Nmap command is:
+<code>bash
+$ nmap [Scan Type(s)] [Options] {target specification}
+</code>
+- <code>Scan Type(s)</code>: Type of scan (e.g., <code>-sS</code> for SYN scan)
+- <code>Options</code>: Timing, verbosity, script use, etc.
+- <code>Target</code>: IP, hostname, or range (e.g., <code>192.168.1.1</code>, <code>192.168.1.0/24</code>)</p>
+
+<p>Common options:
+<code>bash
+$ nmap -sS -v 192.168.1.1
+</code>
+- <code>-sS</code>: TCP SYN scan
+- <code>-v</code>: Verbose output</p>
+
+<h3>Understanding the TCP Three-Way Handshake</h3>
+
+<p>To understand how Nmap communicates with target systems, it helps to know how the TCP three-way handshake works. When a client wants to establish a TCP connection with a server, it sends a SYN packet. The server replies with a SYN-ACK, and the client responds with an ACK to complete the connection. Nmap's popular <code>-sS</code> scan (SYN scan) takes advantage of this by sending a SYN, waiting for the SYN-ACK, and then not completing the handshake—allowing detection of open ports without a full connection. This is faster, stealthier, and less likely to be logged than a full TCP connection.</p>
+
+<h3>Basic Nmap Examples</h3>
+
+<p>Scan a single host:
+<code>bash
+$ nmap 192.168.0.10
+</code>
+Scan a subnet:
+<code>bash
+$ nmap 192.168.0.0/24
+</code>
+Enable verbose and version detection:
+<code>bash
+$ nmap -v -sV 192.168.0.10
+</code></p>
+
+<h3>Some Useful Nmap Options for Pentesters</h3>
+
+<ol>
+<li><code>-sS</code> – TCP SYN scan: Performs a stealthy scan using the TCP handshake without completing it.</li>
+<li><code>-sV</code> – Service version detection: Identifies the versions of running services on open ports.</li>
+<li><code>-O</code> – Operating system detection: Attempts to guess the remote host’s OS based on TCP/IP stack behavior.</li>
+<li><code>-A</code> – Aggressive scan: Enables OS detection, version detection, script scanning, and traceroute in one command.</li>
+<li><code>-p-</code> – Full port scan: Scans all 65535 TCP ports instead of the default top 1000.</li>
+<li><code>--script=vuln</code> – Vulnerability scan: Runs NSE scripts that look for known vulnerabilities.</li>
+<li><code>-T4</code> – Faster timing: Speeds up the scan for reasonably responsive networks without being too noisy.</li>
+<li><code>-Pn</code> – Skip host discovery: Assumes the host is up; useful when ICMP/ping is blocked by firewalls.</li>
+<li><code>-oN output.txt</code> – Save results: Writes scan output to a file in human-readable format.</li>
+<li><code>--top-ports 100</code> – Most common ports: Limits scanning to the 100 most commonly used ports for quicker results.</li>
+</ol>
+
+<h3>A Few Pentesting Examples</h3>
+
+<ol>
+<li>Full TCP port scan:
+<code>bash
+$ nmap -p- 10.0.2.15
+</code></li>
+<li>OS and service detection:
+<code>bash
+$ nmap -A 10.0.2.15
+</code></li>
+<li>Scan multiple targets:
+<code>bash
+$ nmap 10.0.2.15 10.0.2.16 10.0.2.17
+</code></li>
+<li>Run default scripts:
+<code>bash
+$ nmap -sC 10.0.2.15
+</code></li>
+<li>Run vulnerability scripts:
+<code>bash
+$ nmap --script vuln 10.0.2.15
+</code></li>
+</ol>
+
+<h3>Nmap Scripts and the NSE Library</h3>
+
+<p>Nmap includes a powerful feature called the Nmap Scripting Engine (NSE), which uses scripts to automate tasks like vulnerability scanning, brute-forcing, banner grabbing, and more. Scripts are organized into categories such as <code>auth</code>, <code>vuln</code>, <code>exploit</code>, and <code>default</code>. You can run individual scripts or entire categories using the <code>--script</code> option. The full library of scripts can be browsed at <a href="https://nmap.org/nsedoc/">https://nmap.org/nsedoc/</a>, and you can list local scripts with:
+<code>bash
+$ ls /usr/share/nmap/scripts/
+</code>
+To get help on any script, run:
+<code>bash
+$ nmap --script-help &lt;script-name&gt;
+</code></p>
+
+<h3>Some Resources on Nmap.org and Zenmap</h3>
+
+<ul>
+<li><a href="https://nmap.org/book/">Official Documentation</a></li>
+<li><a href="https://nmap.org/book/inst-windows.html">Nmap Cheat Sheet</a></li>
+<li><a href="https://nmap.org/refguide.html">Nmap Reference Guide</a></li>
+<li><a href="https://nmap.org/nsedoc/">Script Library</a></li>
+<li><a href="https://seclists.org/nmap-dev/">Security List</a></li>
+<li><a href="https://nmap.org/book/zenmap.html">Zenmap User Guide</a></li>
+
+</ul>
+
+<p>Zenmap, the GUI version of Nmap, is ideal for visual learners and beginners. It helps build and run commands with graphical feedback and saves scan profiles.</p>
+
+<hr />
+
+<h3>Safety and Legal Use</h3>
+
+<p>Nmap is a powerful tool, but scanning networks you don't own or have permission to test can be illegal and unethical. Always have written authorization when scanning third-party systems. Misuse of Nmap can trigger alarms, get IPs blacklisted, or result in legal consequences. Practice safe scanning in isolated labs or authorized environments.</p>
+
+<h3>Troubleshooting Common Errors You Might Encounter</h3>
+
+<ul>
+<li><strong>Host appears down</strong>: Try using <code>-Pn</code> to skip host discovery.</li>
+<li><strong>Scan takes too long</strong>: Add <code>-T4</code> or reduce scanned ports.</li>
+<li><strong>Permission denied</strong>: On Linux, run with <code>sudo</code> for privileged scans.</li>
+<li><strong>No ports open</strong>: Ensure a firewall isn’t filtering your scan.</li>
+</ul>
+
+<h3>Integration and Scripting</h3>
+
+<p>Nmap integrates well with tools like <strong>Metasploit</strong>, where scan results can be imported for exploitation. You can also use Nmap Scripting Engine (NSE) to automate reconnaissance and vulnerability scanning. Learn more about scripts by running:
+<code>bash
+$ nmap --script-help default
+</code></p>
+
+<h3>Anatomy of an Nmap Command</h3>
+
+<p><code>
+$ nmap -sS -p 80,443 -A -oN scan.txt 192.168.1.1
+│     │     │       │      │      └ Target IP
+│     │     │       │      └ Output file
+│     │     │       └ Aggressive scan (OS, version, scripts)
+│     │     └ Ports to scan
+│     └ Scan type: TCP SYN scan
+└ Command
+</code></p>
+
+<h3>Conclusion</h3>
+<hr />
+
+
+<p>This beginner guide is designed to give a new user confidence using Nmap safely and effectively. I hope this tutorial serves as a solid foundation for your journey into network scanning and security assessment. Good luck!</p>
+
+<hr />
