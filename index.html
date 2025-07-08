@@ -146,17 +146,6 @@ $ nmap --script-help &lt;script-name&gt;
 $ nmap --script-help default
 </code></p>
 
-<h3>Anatomy of an Nmap Command</h3>
-
-<p><code>
-$ nmap -sS -p 80,443 -A -oN scan.txt 192.168.1.1
-│     │     │       │      │      └ Target IP
-│     │     │       │      └ Output file
-│     │     │       └ Aggressive scan (OS, version, scripts)
-│     │     └ Ports to scan
-│     └ Scan type: TCP SYN scan
-└ Command
-</code></p>
 
 <h3>Conclusion</h3>
 <hr />
