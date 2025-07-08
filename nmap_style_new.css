@@ -56,7 +56,36 @@ a:hover {
   text-decoration: underline;
 }
 
-/* Code blocks */
+
+/* Code block (multiline) */
+pre {
+  background-color: #f6f8fa;
+  color: #24292f;
+  padding: 1rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 1.5rem 0;
+  border: 1px solid #d0d7de;
+}
+
+/* Inline code (in paragraphs or lists) */
+code {
+  background-color: #f6f8fa;
+  color: #24292f;
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  font-size: 0.95em;
+  font-family: 'Fira Code', monospace;
+  border: 1px solid #d0d7de;
+}
+
+
+
+/* Code blocks (original style)
+
 pre {
   background-color: #1e1e1e;
   color: #dcdcdc;
@@ -76,6 +105,8 @@ code {
   font-size: 0.95em;
   font-family: 'Fira Code', monospace;
 }
+*/
+
 
 /* Horizontal rule */
 hr {
