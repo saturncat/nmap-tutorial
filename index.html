@@ -20,6 +20,24 @@
 
 <p>Nmap (Network Mapper) was first released by Gordon Lyon (Fyodor) in 1997 as a tool for network exploration and security auditing. Since then, it has grown into one of the most widely used open-source tools in cybersecurity. It supports dozens of scanning techniques and scripting capabilities. Nmap remains actively developed and is an essential utility in every pentester's toolkit.</p>
 
+<h3>Some Common Use Cases</h3>
+<p>Offensive (Red Team / Pentester):</p>
+<ul>
+    <li>Enumerating open ports and services</li>
+    <li>Identifying OS and versions for exploitation</li>
+    <li>Fingerprinting target roles (e.g., mail servers, web servers)</li>
+    <li>Running vuln or exploit NSE scripts</li>
+</ul>
+
+<p>Defensive (Blue Team / Sysadmin):</p>
+<ul>
+    <li>Verifying firewall rules</li>
+    <li>Detecting unauthorized open services</li>
+    <li>Monitoring changes in exposed services</li>
+    <li>Auditing patch status using version detection</li>
+</ul>
+
+
 <h3>Installation (Kali Linux &amp; Windows 11)</h3>
 
 <p>On <strong>Kali Linux</strong>, Nmap is pre-installed. To check, run:
@@ -60,6 +78,26 @@ $ nmap <code class="red1">-sS</code><code class="blue1">-v</code> 192.168.1.1
 
 <p>To understand how Nmap communicates with target systems, it helps to know how the TCP three-way handshake works. When a client wants to establish a TCP connection with a server, it sends a SYN packet. The server replies with a SYN-ACK, and the client responds with an ACK to complete the connection. Nmap's popular <code>-sS</code> scan (SYN scan) takes advantage of this by sending a SYN, waiting for the SYN-ACK, and then not completing the handshake—allowing detection of open ports without a full connection. This is faster, stealthier, and less likely to be logged than a full TCP connection.</p>
 
+<h3>CIDR Notation: Understanding /16 and /24</h3>
+
+<p>When scanning networks with Nmap, you'll often see IP ranges like 192.168.1.0/24 or 10.0.0.0/16. This is CIDR (Classless Inter-Domain Routing) notation, and it's used to represent IP address blocks more efficiently than the older class-based system.</p>
+
+<ul>
+    <li><code>/24</code> means that the first 24 bits of the 32-bit IP address are fixed, leaving the last 8 bits for hosts. This gives you 2^8 = 256 total addresses (254 usable for hosts).</li>
+    <li><code>/16</code> fixes the first 16 bits, leaving 16 bits for hosts—2^16 = 65,536 total addresses (65,534 usable).</li>
+    <li><code>/32</code> means a single host (e.g., 192.168.1.1/32).</li>
+</ul>
+
+<p>Here are some practical examples:</p>
+
+<ul>
+    <li><code>192.168.1.0/24</code>: covers IPs from 192.168.1.0 to 192.168.1.255</li>
+    <li><code>10.0.0.0/8</code>: covers a very large range: 10.0.0.0 to 10.255.255.255</li>
+</ul>
+
+<p>CIDR notation helps Nmap efficiently target specific subnets or entire internal networks by specifying compact and flexible IP ranges.</p>
+
+
 <h3>Basic Nmap Examples</h3>
 
 <p>Scan a single host:
@@ -78,7 +116,7 @@ $ nmap -v -sV 192.168.0.10
 </code>
 </pre></p>
 
-<h3>Some Useful Nmap Options for Pentesters</h3>
+<h3>Some Useful Nmap Options</h3>
 
 <ol>
 <li><code>-sS</code> – TCP SYN scan: Performs a stealthy scan using the TCP handshake without completing it.</li>
@@ -93,7 +131,7 @@ $ nmap -v -sV 192.168.0.10
 <li><code>--top-ports 100</code> – Most common ports: Limits scanning to the 100 most commonly used ports for quicker results.</li>
 </ol>
 
-<h3>A Few Pentesting Examples</h3>
+<h3>A Few Examples</h3>
 
 <p>
 Full TCP port scan:
@@ -136,7 +174,52 @@ $ nmap --script-help &lt;script-name&gt;
 </code>
 </pre></p>
 
-<h3>Using Nmap with ScanMe.Nmap.org</h3>
+<h3>Host Role Profiling with Nmap</h3>
+<p>Nmap can help identify the role of a host on a network by analyzing open ports and service banners. This is useful for both offensive and defensive security tasks, as it allows you to understand what services are running and prioritize your actions accordingly.</p>
+<p>Some examples:</p>
+
+<ul>
+    <li>Port 25, 465, 587: Mail server</li>
+    <li>Port 80, 443: Web server</li>
+    <li>Port 88, 389, 445: Likely a Windows domain controller</li>
+    <li>Port 3306: MySQL database</li>
+</ul>
+
+<p>This helps prioritize attack paths or inventory systems in asset discovery.</p>
+
+<h3>Example: Windows Domain Controller Fingerprint</h3>
+
+<pre><code>
+$ nmap -sS -sV 10.10.10.5
+
+PORT    STATE SERVICE      VERSION
+88/tcp  open  kerberos-sec Microsoft Windows Kerberos
+135/tcp open  msrpc        Microsoft Windows RPC
+139/tcp open  netbios-ssn  Microsoft Windows netbios-ssn
+389/tcp open  ldap         Microsoft Active Directory LDAP
+445/tcp open  microsoft-ds Microsoft Windows Server 2019
+</code>
+</pre>
+<p>This output reveals typical services of an Active Directory domain controller.</p>
+
+<h3>Exporting Nmap Results</h3>
+
+<p>Nmap supports exporting scan results in various formats depending on your needs:</p>
+
+<ul>
+    <li><code>-oN scan.txt</code>: Normal output (human-readable plain text)</li>
+    <li><code>-oG scan.gnmap</code>: Grepable output (structured text that can be parsed line-by-line with tools like grep or awk)</li>
+    <li><code>-oX scan.xml</code>: XML output (used for integration with other tools and formats including CSV, Excel, HTML, JSON, and SIEMs like Splunk)</li>
+    <li><code>-oA basename</code>: Exports all three formats at once (basename.nmap, .gnmap, .xml)</li>
+</ul>
+
+<p>To generate all formats:</p>
+<pre><code>
+$ nmap -oA scan_results 10.0.2.15/24
+</code>
+</pre>
+
+<h3>Using Nmap with scanme.nmap.org</h3>
 <p>Nmap provides a free, safe target to practice scanning: scanme.nmap.org. This domain is maintained by the Nmap project and is intended for educational use. It allows new users to test scans legally and without fear of breaking terms of service.</p>
 
 To use it, simply run:
