@@ -81,8 +81,19 @@ code {
   font-family: 'Fira Code', monospace;
 }
 
+.red1 {
+  color: #e53935; /* Red for scan types */
+}
+.blue1 {
+  color: #1e88e5; /* Blue for options */
+}
+.green1 {
+  color: #43a047; /* Green for targets */
+}
 
-
+ol code {
+    font-weight: bold;
+}
 
 /* Code blocks (original style)
 

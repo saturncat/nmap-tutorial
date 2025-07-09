@@ -24,16 +24,16 @@
 
 <p>On <strong>Kali Linux</strong>, Nmap is pre-installed. To check, run:
 <pre>
-    <code>
-        $ nmap -v
-    </code>
+<code>
+$ nmap -v
+</code>
 </pre>
 
 If not installed, use:
 <pre>
-    <code>
-        $ sudo apt update &amp;&amp; sudo apt install nmap
-    </code>
+<code>
+$ sudo apt update &amp;&amp; sudo apt install nmap
+</code>
 </pre>
 
 <p>On <strong>Windows 11</strong>, download the installer from <a href="https://nmap.org/download.html">nmap.org/download.html</a>. Run the installer and optionally include Zenmap (GUI version). After installation, open PowerShell and type <code>nmap</code> to verify.</p>
@@ -42,19 +42,19 @@ If not installed, use:
 
 <p>The basic syntax of an Nmap command is:
 <pre>
-    <code>
-        $ nmap [Scan Type(s)] [Options] {target specification}
-    </code>    
-- <code>Scan Type(s)</code>: Type of scan (e.g., <code>-sS</code> for SYN scan)
-- <code>Options</code>: Timing, verbosity, script use, etc.
-- <code>Target</code>: IP, hostname, or range (e.g., <code>192.168.1.1</code>, <code>192.168.1.0/24</code>)</p>
+<code>
+$ nmap <code class="red1">[Scan Type(s)]</code><code class="blue1">[Options]</code><code class="green1">{target specification}</code>
+</code>
+- <code class="red1">Scan Type(s)</code>: Type of scan (e.g., <code>-sS</code> for SYN scan)
+- <code class="blue1">Options</code>: Timing, verbosity, script use, etc.
+- <code class="green1">Target</code>: IP, hostname, or range (e.g., <code>192.168.1.1</code>, <code>192.168.1.0/24</code>)</p>
 </pre>
 <p>Common options:
 <pre><code>
-$ nmap -sS -v 192.168.1.1
+$ nmap <code class="red1">-sS</code><code class="blue1">-v</code> 192.168.1.1
 </code>
-- <code>-sS</code>: TCP SYN scan
-- <code>-v</code>: Verbose output</p>
+- <code class="red1">-sS</code>: TCP SYN scan
+- <code class="blue1">-v</code>: Verbose output</p>
 </pre>
 <h3>Understanding the TCP Three-Way Handshake</h3>
 
@@ -174,30 +174,7 @@ $ nmap -A 192.168.56.0/24
 </pre>
 This lab allows full use of Nmap options, including NSE scripts, vulnerability detection, and integration with tools like Metasploit—making it a powerful testbed for learning penetration testing skills safely.
 
-
-
-
-<h3>Some Resources on Nmap.org and Zenmap</h3>
-
-<ul>
-<li><a href="https://nmap.org/book/">Official Documentation</a></li>
-<li><a href="https://nmap.org/book/inst-windows.html">Nmap Cheat Sheet</a></li>
-<li><a href="https://nmap.org/refguide.html">Nmap Reference Guide</a></li>
-<li><a href="https://nmap.org/nsedoc/">Script Library</a></li>
-<li><a href="https://seclists.org/nmap-dev/">Security List</a></li>
-<li><a href="https://nmap.org/book/zenmap.html">Zenmap User Guide</a></li>
-
-</ul>
-
-<p>Zenmap, the GUI version of Nmap, is ideal for visual learners and beginners. It helps build and run commands with graphical feedback and saves scan profiles.</p>
-
-<hr />
-
-<h3>Be Safe!</h3>
-
-<p>Nmap is a powerful tool, but scanning networks you don't own or have permission to test can be illegal and unethical. Always have written authorization when scanning third-party systems. Misuse of Nmap can trigger alarms, get IPs blacklisted, or result in legal consequences. Practice safe scanning in isolated labs or authorized environments.</p>
-
-<h3>Troubleshooting Common Errors You Might Encounter</h3>
+<h3>Some Common Errors You Might Encounter</h3>
 
 <ul>
 <li><strong>Host appears down</strong>: Try using <code>-Pn</code> to skip host discovery.</li>
@@ -213,6 +190,26 @@ This lab allows full use of Nmap options, including NSE scripts, vulnerability d
 $ nmap --script-help default
 </code>
 </pre></p>
+
+
+<h3>Some Nmap Resources</h3>
+
+<ul>
+<li><a href="https://nmap.org/docs.html">Official Documentation</a></li>
+<li><a href="https://nmap.org/book/man.html">Nmap Reference Guide</a></li>
+<li><a href="https://nmap.org/nsedoc/">Scripting Reference and Library</a></li>
+<li><a href="https://nmap.org/zenmap/">Zenmap</a></li>
+</ul>
+
+<p>Although you should become familiar with using Nmap on the command line, Zenmap, the GUI version of Nmap, is ideal for visual learners and beginners. It helps build and run commands with graphical feedback and saves scan profiles.</p>
+
+<hr />
+
+<h3>Be Safe!</h3>
+
+<p>Nmap is a powerful tool, but scanning networks you don't own or have permission to test can be illegal and unethical. Always have written authorization when scanning third-party systems. Misuse of Nmap can trigger alarms, get IPs blacklisted, or result in legal consequences. Practice safe scanning in isolated labs or authorized environments.</p>
+
+
 
 <hr />
 <h3>Conclusion</h3>
