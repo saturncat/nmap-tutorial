@@ -73,8 +73,8 @@ pre {
 
 /* Inline code */
 code {
-  background-color: #f4f4f5;
-  color: #2a2a2a;
+ /* background-color: #f4f4f5;
+  color: #2a2a2a;*/
   padding: 0.2em 0.4em;
   border-radius: 4px;
   font-size: 0.95em;
